@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 version: '2'
 services:
   php:
@@ -7,3 +8,63 @@ services:
       - ./:/app:delegated
     ports:
       - '8000:80'
+=======
+version: '3.8'
+services:
+
+  calc-php-fpm:
+    image: ${REGISTRY}/${PHP_FMP_CONTAINER_NAME}:${IMAGE_TAG}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - .:/app
+
+  calc-php-cli:
+    image: ${REGISTRY}/${PHP_CLI_CONTAINER_NAME}:${IMAGE_TAG}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - .:/app
+
+  calc-nginx:
+    image: ${REGISTRY}/${NGINX_CONTAINER_NAME}:${IMAGE_TAG}
+    ports:
+      - ${APP_WEB_PORT}:80
+    volumes:
+      - .:/app
+
+  calc-postgresdb:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
+
+  # calc-redis:
+  #   image: redis
+  #   command: >
+  #     --requirepass ${REDIS_PASSWORD}
+  #   volumes:
+  #     - ./redis.conf:/urs/local/etc/redis/redis.conf
+  #   ports:
+  #     - '6379'
+
+  # calc-nodejs:
+  #   image: node:16.13-alpine3.12
+  #   volumes: 
+  #     - .:/app
+  #   command: npm run start:dev
+  #   ports:
+  #     - "3000:3000"
+  #   working_dir: /app
+>>>>>>> Stashed changes

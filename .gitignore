@@ -1,6 +1,9 @@
 # phpstorm project files
 .idea
 
+# ENV files
+.env
+
 # netbeans project files
 nbproject
 
@@ -18,9 +21,6 @@ Thumbs.db
 # composer itself is not needed
 composer.phar
 
-# composer lock
-composer.lock
-
 # Mac DS_Store Files
 .DS_Store
 
@@ -34,3 +34,7 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
+
+#db.php
+config/db.php
+config/db_php.dist
