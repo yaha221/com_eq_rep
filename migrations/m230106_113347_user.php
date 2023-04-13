@@ -25,8 +25,6 @@ class m230106_113347_user extends Migration
             'last_login_ip' => $this->string(45),
         ],);
 
-        
-
         $this->createIndex('unq_email', '{{%user}}', 'email', true);
 
         $this->insert('user', [

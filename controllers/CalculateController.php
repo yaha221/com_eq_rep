@@ -10,8 +10,7 @@ use yii\web\NotFoundHttpException;
 use app\models\calculate\CalculatedForm;
 use app\models\repositories\DataRepository;
 use app\models\user\Request;
-use app\models\releaseControl\FeatureEnums;
-use app\components\releaseControl\ReleaseControlComponent;
+
 
 /**
  * HomeController отвечает за работу калькулятором доставки
@@ -45,16 +44,6 @@ class CalculateController extends Controller
      */
     public function actionIndex()
     {
-        $releaseController = \Yii::$container->get(ReleaseControlComponent::class);
-
-        if ($releaseController->isEnabled(FeatureEnums::USE_VUE_JS_FORM_REALIZATION) === true) {
-            return $this->render('vue');
-        }
-
-        \Yii::$app->redis->auth('lol2lol');
-        \Yii::$app->redis->set('mykey', 'some value');
-        dd(\Yii::$app->redis->get('mykey'));
-
         $calculatedForm  = new CalculatedForm();
         $repository = new DataRepository();
 
