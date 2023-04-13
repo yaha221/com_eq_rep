@@ -2,43 +2,54 @@
     "name": "yiisoft/yii2-app-basic",
     "description": "Yii 2 Basic Project Template",
     "keywords": ["yii2", "framework", "basic", "project template"],
-    "homepage": "https://www.yiiframework.com/",
+    "homepage": "http://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "https://www.yiiframework.com/forum/",
-        "wiki": "https://www.yiiframework.com/wiki/",
+        "forum": "http://www.yiiframework.com/forum/",
+        "wiki": "http://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4.0",
-        "yiisoft/yii2": "~2.0.45",
-        "yiisoft/yii2-bootstrap5": "~2.0.2",
-        "yiisoft/yii2-symfonymailer": "~2.0.3"
+        "php": ">=5.6.0",
+        "yiisoft/yii2": "~2.0.14",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
+        "yiisoft/yii2-redis": "~2.0.0",
+        "tlr/html-table-builder": "^1.1",
+        "nkostadinov/yii2-user": "0.12-beta",
+        "twbs/bootstrap": "^5.2",
+        "jenssegers/date": "^4.0",
+        "kartik-v/yii2-grid": "dev-master",
+        "kartik-v/yii2-widget-switchinput": "dev-master",
+        "rmrevin/yii2-fontawesome": "2.10.*"
     },
     "require-dev": {
+        "kartik-v/yii2-date-range": "dev-master",
+        "kartik-v/yii2-widget-select2": "dev-master",
         "yiisoft/yii2-debug": "~2.1.0",
-        "yiisoft/yii2-gii": "~2.2.0",
+        "yiisoft/yii2-gii": "~2.1.0",
         "yiisoft/yii2-faker": "~2.0.0",
-        "phpunit/phpunit": "~9.5.0",
-        "codeception/codeception": "^5.0.0 || ^4.0",
-        "codeception/lib-innerbrowser": "^3.0 || ^1.1",
-        "codeception/module-asserts": "^3.0 || ^1.1",
-        "codeception/module-yii2": "^1.1",
-        "codeception/module-filesystem": "^2.0 || ^1.1",
-        "codeception/verify": "^2.2",
-        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
+        "codeception/codeception": "~4.2.2",
+        "codeception/verify": "~0.5.0 || ~1.1.0",
+        "codeception/specify": "~0.4.6",
+        "symfony/browser-kit": ">=2.7 <=4.2.4",
+        "codeception/module-filesystem": "^1.0.0",
+        "codeception/module-yii2": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "phplucidframe/console-table": "^1.2",
+        "symfony/var-dumper": "^5.4"
     },
     "config": {
-        "allow-plugins": {
-            "yiisoft/yii2-composer" : true
-        },
-        "process-timeout": 1800,
+        "process-timeout": 600,
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "scripts": {
@@ -71,5 +82,8 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "autoload": {
+        "Tlr\\": "src"
+    }
 }
