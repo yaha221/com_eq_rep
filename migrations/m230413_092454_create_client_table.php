@@ -21,7 +21,7 @@ class m230413_092454_create_client_table extends Migration
             'phone' => $this->string(20)->notNull(),
             'e-mail' => $this->string(100)->notNull(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP '),
         ]);
 
         $this->insert(self::TABLE_NAME, [
@@ -47,6 +47,24 @@ class m230413_092454_create_client_table extends Migration
             'e-mail' => 'asya@asya.s',
             'phone' => '8-987-765-43-21',
         ]);
+
+        $sql_function = " CREATE  FUNCTION update_updated_on_client()
+        RETURNS TRIGGER AS $$
+        BEGIN
+            NEW.updated_at = now();
+            RETURN NEW;
+        END;
+        $$ language 'plpgsql'; ";
+        
+        $this->execute($sql_function);
+        
+        $sql_trigger = "CREATE TRIGGER update_client_updated_on
+        BEFORE UPDATE
+        ON
+            public.\"client\"
+        FOR EACH ROW
+        EXECUTE PROCEDURE update_updated_on_client();";
+        $this->execute($sql_trigger);
     }
 
     /**
@@ -54,6 +72,8 @@ class m230413_092454_create_client_table extends Migration
      */
     public function safeDown()
     {
+        $this->execute("DROP FUNCTION IF EXISTS `update_updated_on_client()`;");
+        $this->execute("DROP TRIGGER IF EXISTS `update_client_updated_on`;");
         $this->dropTable(self::TABLE_NAME);
     }
 }

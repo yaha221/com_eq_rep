@@ -42,7 +42,6 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'История расчётов', 'url' => ['/client/history'], 'visible' => Yii::$app->user->isGuest === false],
                 ['label' => 'Пользователи', 'url' => ['/admin/users'], 'visible' => Yii::$app->user->can('admin')],
-                ['label' => 'Применение обновлений', 'url' => ['/release-control'], 'visible' => Yii::$app->user->can('admin')],
                 ['label' => 'Выход', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
                 ],
             ]

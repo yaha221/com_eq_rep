@@ -18,14 +18,14 @@ class m230413_092728_create_employees_table extends Migration
             'profession_id' => $this->integer()->notNull(),
             'name' => $this->string(30)->notNull(),
             'surname' => $this->string(50)->notNull(),
-            'expirience' => $this->smallInteger()->defaultValue(6)->notNull(),
+            'experience' => $this->smallInteger()->defaultValue(6)->notNull(),
             'wage' => $this->integer()->notNull(),
             'status' => $this->smallInteger()->defaultValue(1)->notNull(),
             'sex' => $this->boolean()->notNull(),
             'phone' => $this->string(20)->notNull(),
             'e-mail' => $this->string(100)->notNull(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP '),
         ]);
 
         $this->insert(self::TABLE_NAME, [
@@ -87,6 +87,24 @@ class m230413_092728_create_employees_table extends Migration
             'e-mail' => 'yspeshniy_yspech@yandex.com',
             'phone' => '8-932-492-90-09',
         ]);
+
+        $sql_function = " CREATE  FUNCTION update_updated_on_employees()
+        RETURNS TRIGGER AS $$
+        BEGIN
+            NEW.updated_at = now();
+            RETURN NEW;
+        END;
+        $$ language 'plpgsql'; ";
+        
+        $this->execute($sql_function);
+        
+        $sql_trigger = "CREATE TRIGGER update_employees_updated_on
+        BEFORE UPDATE
+        ON
+            public.\"employees\"
+        FOR EACH ROW
+        EXECUTE PROCEDURE update_updated_on_employees();";
+        $this->execute($sql_trigger);
     }
 
     /**
@@ -94,6 +112,8 @@ class m230413_092728_create_employees_table extends Migration
      */
     public function safeDown()
     {
+        $this->execute("DROP FUNCTION IF EXISTS `update_updated_on_employees()`;");
+        $this->execute("DROP TRIGGER IF EXISTS `update_employees_updated_on`;");
         $this->dropTable(self::TABLE_NAME);
     }
 }

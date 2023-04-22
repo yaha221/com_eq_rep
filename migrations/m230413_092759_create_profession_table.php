@@ -16,10 +16,10 @@ class m230413_092759_create_profession_table extends Migration
         $this->createTable(self::TABLE_NAME, [
             'profession_id' => $this->primaryKey(),
             'name' => $this->string(100)->notNull(),
-            'desciption' => $this->text()->notNull(),
+            'description' => $this->text()->notNull(),
             'salary' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP '),
         ]);
 
         $this->insert(self::TABLE_NAME, [
@@ -45,6 +45,24 @@ class m230413_092759_create_profession_table extends Migration
             'description' => 'Основная задача, встречать вновь прибовших клиентов и формировать заявки на ремонт. Обязательно иметь опыт в работе с ПК, а так же минимальное знание устройства ПК',
             'salary' => 20000,
         ]);
+
+        $sql_function = " CREATE  FUNCTION update_updated_on_profession()
+        RETURNS TRIGGER AS $$
+        BEGIN
+            NEW.updated_at = now();
+            RETURN NEW;
+        END;
+        $$ language 'plpgsql'; ";
+        
+        $this->execute($sql_function);
+        
+        $sql_trigger = "CREATE TRIGGER update_profession_updated_on
+        BEFORE UPDATE
+        ON
+            public.\"profession\"
+        FOR EACH ROW
+        EXECUTE PROCEDURE update_updated_on_profession();";
+        $this->execute($sql_trigger);
     }
 
     /**
@@ -52,6 +70,8 @@ class m230413_092759_create_profession_table extends Migration
      */
     public function safeDown()
     {
+        $this->execute("DROP FUNCTION IF EXISTS `update_updated_on_profession()`;");
+        $this->execute("DROP TRIGGER IF EXISTS `update_profession_updated_on`;");
         $this->dropTable(self::TABLE_NAME);
     }
 }

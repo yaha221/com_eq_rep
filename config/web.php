@@ -8,7 +8,7 @@ $config = [
     'timeZone' => 'Europe/Moscow',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => 'calculate/index',
+    'defaultRoute' => 'repair/index',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -20,13 +20,6 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-        ],
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => 'calc-redis',
-            'port' => 6379,
-            'database' => 0,
-            'password' => 'lol2lol',
         ],
         'user' => [
             'class' => app\components\User::class,
@@ -42,10 +35,6 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'client/error',
-        ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
