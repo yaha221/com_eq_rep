@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m230421_110619_add_foreign_key
+ * Class m230423_151338_create_add_foreign_key
  */
-class m230421_110619_add_foreign_key extends Migration
+class m230423_151338_create_add_foreign_key extends Migration
 {
     /**
      * {@inheritdoc}
@@ -52,43 +52,23 @@ class m230421_110619_add_foreign_key extends Migration
             'CASCADE'
         );
 
-        // work_on_request->list-work_on_request-employees
+        // bid->list-bid-masters
         $this->addForeignKey(
-            'fk-work_on_request-to-employee',
-            'list_work_on_request_employees',
-            'work_on_request_id',
-            'work_on_request',
-            'work_on_request_id',
+            'fk-bid-to-master',
+            'list_bid_masters',
+            'bid_id',
+            'bid',
+            'bid_id',
             'CASCADE'
         );
 
-        // employee->list-work_on_request-employees
+        // master->list-bid-masters
         $this->addForeignKey(
-            'fk-employee-to-work_on_request',
-            'list_work_on_request_employees',
-            'employee_id',
-            'employees',
-            'employee_id',
-            'CASCADE'
-        );
-
-        // bid->list_work_on_request_price_list
-        $this->addForeignKey(
-            'fk-work_on_request-to-price_list',
-            'list_work_on_request_price_list',
-            'work_on_request_id',
-            'work_on_request',
-            'work_on_request_id',
-            'CASCADE'
-        );
-
-        // bid->list_work_on_request_price_list
-        $this->addForeignKey(
-            'fk-price_list-to-work_on_request',
-            'list_work_on_request_price_list',
-            'price_list_id',
-            'price_list',
-            'price_list_id',
+            'fk-master-to-bid',
+            'list_bid_masters',
+            'master_id',
+            'masters',
+            'master_id',
             'CASCADE'
         );
 
@@ -101,7 +81,7 @@ class m230421_110619_add_foreign_key extends Migration
             'work_on_request_id',
             'CASCADE'
         );
-
+        
         // bid->list_bid_work_on_request
         $this->addForeignKey(
             'fk-bid-to-work_on_request',
@@ -109,6 +89,16 @@ class m230421_110619_add_foreign_key extends Migration
             'bid_id',
             'bid',
             'bid_id',
+            'CASCADE'
+        );
+        
+        // work_on_request->price_list
+        $this->addForeignKey(
+            'fk-price_list-work_on_request',
+            'work_on_request',
+            'price_list_id',
+            'price_list',
+            'price_list_id',
             'CASCADE'
         );
 
@@ -131,26 +121,6 @@ class m230421_110619_add_foreign_key extends Migration
             'equipment_id',
             'CASCADE'
         );
-
-        // profession->employees
-        $this->addForeignKey(
-            'fk-profession-employees',
-            'employees',
-            'profession_id',
-            'profession',
-            'profession_id',
-            'CASCADE'
-        );
-
-        // supplier->spares
-        $this->addForeignKey(
-            'fk-supplier-spares',
-            'spares',
-            'supplier_id',
-            'supplier',
-            'supplier_id',
-            'CASCADE'
-        );
     }
 
     /**
@@ -166,13 +136,9 @@ class m230421_110619_add_foreign_key extends Migration
         $this->dropForeignKey('fk-work_on_request-to-spares', 'list_work_on_request_spares');
         $this->dropForeignKey('fk-spares-to-work_on_request', 'list_work_on_request_spares');
 
-        //list_work_on_request-employees
-        $this->dropForeignKey('fk-work_on_request-to-employee', 'list_work_on_request_employees');
-        $this->dropForeignKey('fk-employee-to-work_on_request', 'list_work_on_request_employees');
-
-        //list_work_on_request_price_list
-        $this->dropForeignKey('fk-work_on_request-to-price_list', 'list_work_on_request_price_list');
-        $this->dropForeignKey('fk-price_list-to-work_on_request', 'list_work_on_request_price_list');
+        //list_bid-masters
+        $this->dropForeignKey('fk-bid-to-master', 'list_bid_masters');
+        $this->dropForeignKey('fk-master-to-bid', 'list_bid_masters');
 
         //list_bid_work_on_request
         $this->dropForeignKey('fk-work_on_request-to-bid', 'list_bid_work_on_request');
@@ -184,8 +150,8 @@ class m230421_110619_add_foreign_key extends Migration
         // equipment->bids
         $this->dropForeignKey('fk-equipment-bids', 'bid');
 
-        // profession->employees
-        $this->dropForeignKey('fk-profession-employees', 'employees');
+        // work_on_request->price_list
+        $this->dropForeignKey('fk-price_list-work_on_request', 'price_list');
 
         // supplier->spares
         $this->dropForeignKey('fk-supplier-spares', 'spares');

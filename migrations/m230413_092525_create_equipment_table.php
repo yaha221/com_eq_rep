@@ -16,7 +16,7 @@ class m230413_092525_create_equipment_table extends Migration
         $this->createTable(self::TABLE_NAME, [
             'equipment_id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull(),
-            'serial_number' => $this->string(150)->notNull(),
+            'serial_number' => $this->string(150)->unique()->notNull(),
             'type_of_equipment' => $this->string(100)->notNull(),
             'manufacturer' => $this->string(150)->notNull(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
